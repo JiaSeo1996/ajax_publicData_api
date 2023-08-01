@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  <script>
+    $(() => {
+      $.ajax({
+        url: "./state.json",
+        dataType: "json",
+        success: (data) => {
+          if (data.length > 0) {
+            var tb = $("<table />");
+
+            for (var i in data) {
+              var $KDGT_NM = data[i].KDGT_NM,
+                      $TELNO = data[i].TELNO,
+                      $HMPG_ADDR = data[i].HMPG_ADDR,
+                      $REFINE_ZIPNO = data[i].REFINE_ZIPNO,
+                      $REFINE_ROADNM_ADDR = data[i].REFINE_ROADNM_ADDR,
+
+                      row = $("<tr />").append(
+                              $("<td />").text($KDGT_NM),
+                              $("<td />").text($TELNO),
+                              $("<td />").text($HMPG_ADDR),
+                              $("<td />").text($REFINE_ZIPNO),
+                              $("<td />").text($REFINE_ROADNM_ADDR),
+                      );
+              tb.append(row);
+            }
+            $("#wrap").append(tb);
+          }
+        }
+      })
+    })
+  </script>
+  <title>경기도 유치원</title>
+</head>
+<body>
+<input id="searchItem" type="text" placeholder="Search..">
+<div id="wrap"></div>
+<script>
+  $("#searchItem").on("keyup", function () {
+    var value = $(this).val();
+    $("#wrap tr").filter(function () {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+    })
+  })
+</script>
+</body>
+</html>
